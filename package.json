@@ -1,0 +1,19 @@
+{
+  "name": "kudosminter",
+  "version": "1.0.0",
+  "description": "Kudos Minter",
+  "main": "index.js",
+  "scripts": {
+    "emulators": "firebase emulators:start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pschoffer/kudosMinter.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pschoffer/kudosMinter/issues"
+  },
+  "homepage": "https://github.com/pschoffer/kudosMinter#readme"
+}

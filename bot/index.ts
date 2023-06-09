@@ -1,7 +1,11 @@
+import { initFirebase } from "./utils/firebase";
+
 // Require the necessary discord.js classes
 const { Client, Events, GatewayIntentBits } = require('discord.js');
 const { token } = require('./config').default;
 const { readdirSync } = require('fs');
+
+initFirebase();
 
 const COMMAND_PATH = `${__dirname}/commands`;
 

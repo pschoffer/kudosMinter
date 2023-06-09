@@ -1,0 +1,34 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "command": "npm run emulators",
+            "problemMatcher": [],
+            "label": "Emulators",
+        },
+        {
+            "type": "shell",
+            "command": "cd functions && npm run build:watch",
+            "problemMatcher": [],
+            "label": "Functions",
+        },
+        {
+            "type": "npm",
+            "path": "bot",
+            "script": "dev-emulators",
+            "label": "Bot",
+        },
+        {
+            "type": "shell",
+            "command": "echo Hello",
+            "problemMatcher": [],
+            "label": "Dev-Evn",
+            "dependsOn": [
+                "Emulators",
+                "Functions",
+                "Bot",
+            ]
+        }
+    ]
+}
