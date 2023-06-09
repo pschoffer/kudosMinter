@@ -3,7 +3,6 @@ const { Routes } = require('discord-api-types/v9');
 import { readdirSync } from 'fs';
 import config from '../config';
 
-console.log('config', config);
 const COMMAND_PATH = `${__dirname}/../commands`;
 
 const executeCommand = async () => {
