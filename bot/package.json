@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "DEV=true ./scripts/dev-run.sh",
     "update-commands-dev": "DEV=true ts-node scripts/update-commands.ts"
   },
   "author": "",
@@ -13,6 +14,7 @@
     "discord.js": "^14.11.0"
   },
   "devDependencies": {
+    "@types/node": "^20.2.5",
     "ts-node": "^10.9.1"
   }
 }
