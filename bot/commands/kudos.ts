@@ -1,6 +1,6 @@
 import { ChatInputCommandInteraction } from "discord.js";
 import * as admin from 'firebase-admin';
-import { Collections } from "../utils/constants";
+import { Collections } from "../utils/shared/constants";
 
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
