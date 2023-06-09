@@ -23,6 +23,10 @@
 // const fs = require('fs');
 // const mnemonic = fs.readFileSync(".secret").toString().trim();
 
+
+const HDWalletProvider = require('@truffle/hdwallet-provider');
+const { PRIVATE_KEYS_TEST, PRIVATE_KEYS_PROD } = require('./secrets')
+
 module.exports = {
   /**
    * Networks define how you connect to your ethereum client and let you set the
@@ -71,6 +75,19 @@ module.exports = {
     // network_id: 2111,   // This network is yours, in the cloud.
     // production: true    // Treats this network as if it was a public net. (default: false)
     // }
+    prod: {
+      provider: () => new HDWalletProvider({ privateKeys: PRIVATE_KEYS_PROD, providerOrUrl: 'https://rpc.gnosischain.com' }),
+      network_id: 100,
+      gas: 500000,
+      gasPrice: 1000000000
+    },
+    gnotest: {
+      // provider: () => new HDWalletProvider({ privateKeys: PRIVATE_KEYS_TEST, providerOrUrl: 'https://rpc.chiado.gnosis.gateway.fm	' }),
+      provider: () => new HDWalletProvider({ privateKeys: PRIVATE_KEYS_TEST, providerOrUrl: 'https://rpc.chiadochain.net' }),
+      network_id: 10200,
+      // gas: 5000000000,
+      // gasPrice: 1000000000
+    },
   },
 
   // Set default mocha options here, use special reporters etc.
@@ -100,17 +117,17 @@ module.exports = {
   // NOTE: It is not possible to migrate your contracts to truffle DB and you should
   // make a backup of your artifacts to a safe location before enabling this feature.
   //
-  // After you backed up your artifacts you can utilize db by running migrate as follows: 
+  // After you backed up your artifacts you can utilize db by running migrate as follows:
   // $ truffle migrate --reset --compile-all
   //
   // db: {
-    // enabled: false,
-    // host: "127.0.0.1",
-    // adapter: {
-    //   name: "sqlite",
-    //   settings: {
-    //     directory: ".db"
-    //   }
-    // }
+  // enabled: false,
+  // host: "127.0.0.1",
+  // adapter: {
+  //   name: "sqlite",
+  //   settings: {
+  //     directory: ".db"
+  //   }
+  // }
   // }
 };
