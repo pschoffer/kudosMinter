@@ -99,5 +99,4 @@ const persistImage = async (tokenId: string, imageUrl: string) => {
     functions.logger.info(`Image for ${tokenId} persisted`);
 
     return `https://storage.googleapis.com/kudos-minter/public/${tokenId}.png`;
-
 }
