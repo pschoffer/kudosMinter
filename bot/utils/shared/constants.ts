@@ -5,6 +5,9 @@ export enum Collections {
     Metadata = 'metadata',
 }
 
+export const TMP_IMAGE = 'https://storage.googleapis.com/kudos-minter/public/tmp.png';
+export const FRONTEND_URL = 'https://kudos-minter.web.app';
+
 export const RPC_ENDPOINT = 'https://rpc.chiadochain.net';
 
 export const NFT_CONTRACT_ADDRESS = '0xC93c2C0171f1fD1052F899c1Db69E487B10456e5';

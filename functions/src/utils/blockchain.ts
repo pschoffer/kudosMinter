@@ -2,7 +2,7 @@ import * as functions from "firebase-functions";
 import * as admin from 'firebase-admin';
 import { PendingKudos, NFTMetadata } from "./shared/models";
 import { ethers, JsonRpcProvider } from "ethers";
-import { Collections, MINT_ABI, NFT_CONTRACT_ADDRESS, RPC_ENDPOINT } from './shared/constants'
+import { Collections, FRONTEND_URL, MINT_ABI, NFT_CONTRACT_ADDRESS, RPC_ENDPOINT, TMP_IMAGE } from './shared/constants'
 
 
 export const mintKudos = async (kudos: PendingKudos, address: string): Promise<number> => {
@@ -32,8 +32,8 @@ const initMetadata = async (kudos: PendingKudos, tokenId: number) => {
     const newMetadata: NFTMetadata = {
         name: `Kudos #${tokenId}`,
         description: `Kudos from ${kudos.fromName} to ${kudos.toName} with message ${kudos.message}`,
-        image: "TODO",
-        external_url: "TODO",
+        image: TMP_IMAGE,
+        external_url: FRONTEND_URL,
         imageGenerated: false,
         attributes: [
             {
