@@ -9,29 +9,26 @@ contract KudosMinter is ERC721Enumerable, Ownable {
     string private _baseURIStorage;
 
     constructor() ERC721("Kudos", "KUDO") {
-      _baseURIStorage = "https://test.com";
-      _minter = 0x1C9e4a7636ea865c8D3476722bC93CADFD37eAd1;
+        _baseURIStorage = "https://test.com";
+        _minter = 0x1C9e4a7636ea865c8D3476722bC93CADFD37eAd1;
     }
 
-    function mint(address reciever) public{
-        _mint(reciever,  totalSupply() + 1);
+    function mint(address reciever) public returns (uint256) {
+        _mint(reciever, totalSupply() + 1);
+        return totalSupply();
     }
 
     function _baseURI() internal view override returns (string memory) {
         return _baseURIStorage;
     }
+
     // ** Only Owner Functions **
 
-    function setMinter(address newMinter)
-        external
-        onlyOwner
-    {
+    function setMinter(address newMinter) external onlyOwner {
         _minter = newMinter;
     }
 
-     function setBaseURI(string memory baseURIStorage) external onlyOwner {
+    function setBaseURI(string memory baseURIStorage) external onlyOwner {
         _baseURIStorage = baseURIStorage;
     }
-
-
 }
