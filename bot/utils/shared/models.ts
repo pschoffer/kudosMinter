@@ -18,7 +18,9 @@ export interface BotQueueItem {
     createdAt: Date;
 }
 
+
 export type NFTMetadata = {
+    id?: string
     name: string,
     image: string,
     description: string,

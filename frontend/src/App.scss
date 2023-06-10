@@ -1,1 +1,33 @@
+$primary: #6c6c6c;
+
 @import '~bootstrap/scss/bootstrap.scss';
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.v-center {
+  display: flex;
+  align-items: center;
+}
+
+$preview: 200px;
+
+.kudos-preview {
+  max-width: $preview;
+  max-height: $preview;
+}
+
+.kudos-link {
+  cursor: pointer;
+  padding: 0px 20px;
+  border: 1px solid black;
+
+  &:hover {
+    text-decoration: none;
+    background-color: beige;
+    padding: 0px 10px;
+  }
+}

@@ -20,6 +20,13 @@
             "label": "Bot",
         },
         {
+            "type": "npm",
+            "path": "bot",
+            "script": "dev",
+            "label": "Bot-Dev",
+            "problemMatcher": []
+        },
+        {
             "type": "shell",
             "command": "echo Hello",
             "problemMatcher": [],
