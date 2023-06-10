@@ -2,8 +2,9 @@ import * as functions from "firebase-functions";
 import * as admin from 'firebase-admin';
 import { Collections } from "./utils/shared/constants";
 import { enqueuUserAddressRequest } from "./utils/queue";
-import { PendingKudos, User } from "./utils/shared/models";
+import { NFTMetadata, PendingKudos, User } from "./utils/shared/models";
 import { mintKudos } from "./utils/blockchain";
+import { apiWrapper, getTokenIdFromPath } from "./utils/api";
 
 admin.initializeApp();
 
@@ -39,4 +40,28 @@ export const handleUserUpdate = functions.firestore.document(`${Collections.User
         await mintKudos(kudos, newData.address);
         await admin.firestore().doc(`${Collections.PendingKudos}/${kudosDoc.id}`).delete();
     }
+});
+
+export const getMetadata = functions.https.onRequest(async (request, response) => {
+    return apiWrapper(request, response, async () => {
+
+        const tokenId = getTokenIdFromPath(request);
+
+        const metadataDoc = await admin.firestore().doc(`${Collections.Metadata}/${tokenId}`).get();
+        if (!metadataDoc.exists) {
+            response
+                .header('Cache-Control', 'public, max-age=0, s-maxage=0')
+                .status(404).send({ error: 'Not found' });
+            return;
+        }
+
+        response.header('content-type', 'application/json');
+
+        const metadata = metadataDoc.data() as NFTMetadata;
+        if (metadata.imageGenerated) {
+            response
+                .header('Cache-Control', 'public, max-age=31536000, s-maxage=31536000')
+        }
+        response.status(200).send(metadata);
+    });
 });
