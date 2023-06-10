@@ -5,6 +5,7 @@ import { enqueuUserAddressRequest } from "./utils/queue";
 import { NFTMetadata, PendingKudos, User } from "./utils/shared/models";
 import { mintKudos } from "./utils/blockchain";
 import { apiWrapper, getTokenIdFromPath } from "./utils/api";
+import axios from "axios";
 
 admin.initializeApp();
 
@@ -63,4 +64,57 @@ export const getMetadata = functions.https.onRequest(async (request, response) =
         }
         response.status(200).send(metadata);
     });
+});
+
+
+/** *
+ * SERVER SIDE RENDER
+ */
+
+export const kudospage = functions.https.onRequest(async (req, res) => {
+    const pathParts = req.path.split('/');
+    const tokenId = pathParts[pathParts.length - 1];
+
+    const host = req.hostname;
+    const endpoint = req.protocol + '://' + host;
+
+    functions.logger.info(`Getting base html from "${endpoint}"`, {
+        hostName: req.hostname,
+        host: req.get('host')
+    });
+    const htmlResponse = await axios.get(endpoint);
+
+    const html = htmlResponse.data;
+
+    const existingMetadata = await admin.firestore().doc(`${Collections.Metadata}/${tokenId}`).get();
+    if (!existingMetadata.exists) {
+        res.status(200).send(html);
+        return;
+    }
+
+    const metadata = existingMetadata.data() as NFTMetadata;
+
+    const replacedHtml = html.replace(
+        /<title>.*<meta name="description".*?\/>/,
+        `
+        <title>${metadata.name}</title>
+        <meta name="description" content="${metadata.description}" />
+        <meta property="og:title" content="${metadata.name}" />
+        <meta property="og:description" content="${metadata.description}" />
+        <meta property="og:image" content="${metadata.image}" />
+        <meta property="twitter:title" content="${metadata.name}" />
+        <meta property="twitter:description" content="${metadata.description}" />
+        <meta property="twitter:image" content="${metadata.image}" />
+        <meta name="twitter:card" content="summary_large_image"/>
+        `
+    );
+
+    if (metadata.imageGenerated) {
+        res.set('Cache-Control', 'public, max-age=31536000, s-maxage=31536000')
+    }
+
+    res
+        .status(200)
+        .send(replacedHtml);
+    return;
 });

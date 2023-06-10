@@ -42,6 +42,10 @@
       {
         "source": "/getMetadata/*",
         "function": "getMetadata"
+      },
+      {
+        "source": "/kudos/*",
+        "function": "kudospage"
       }
     ]
   }
