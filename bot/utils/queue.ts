@@ -28,7 +28,7 @@ export const processEvent = async (event: BotQueueItem, client: Client) => {
     try {
 
         if (event.type === 'addressQuery') {
-            await messageUser(event, client);
+            await askForAddress(event, client);
         } else {
             console.error('Unknown event type', event.type);
             await markEventAsFailed(event);
@@ -40,11 +40,11 @@ export const processEvent = async (event: BotQueueItem, client: Client) => {
 }
 
 
-async function messageUser(event: BotQueueItem, client: Client) {
+async function askForAddress(event: BotQueueItem, client: Client) {
 
     try {
         const user = await client.users.fetch(event.userId);
-        await user.send('lala');
+        await user.send('Good news! You just got your first kudos! To claim it, please send me your address.');
         await markEventAsSuccess(event);
 
     } catch (e) {

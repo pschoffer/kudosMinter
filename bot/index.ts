@@ -1,8 +1,10 @@
-import { initFirebase } from "./utils/firebase";
+import { Message, Client, Events, GatewayIntentBits, Partials, MessageType } from "discord.js";
+import { initFirebase, updateWallet } from "./utils/firebase";
 import { subscribeToQueue } from "./utils/queue";
+import { isValidEthAddress } from "./utils/blockchain";
 
 // Require the necessary discord.js classes
-const { Client, Events, GatewayIntentBits } = require('discord.js');
+// const { Client, Events, GatewayIntentBits,  } = require('discord.js');
 const { token } = require('./config').default;
 const { readdirSync } = require('fs');
 
@@ -21,7 +23,7 @@ for (const commandFile of commandFiles) {
 }
 
 // Create a new client instance
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.DirectMessages], partials: [Partials.Channel, Partials.Message] });
 
 // When the client is ready, run this code (only once)
 // We use 'c' for the event parameter to keep it separate from the already defined 'client'
@@ -49,6 +51,22 @@ client.on('interactionCreate', async interaction => {
         }
     } else {
         await interaction.reply('Command not found :(');
+    }
+});
+
+client.on('messageCreate', async (message: Message) => {
+    if (message.author.bot) {
+        return;
+    }
+
+    const content = message.content.trim();
+
+    console.log(`Received DM from ${message.author.username}: ${message.content}`);
+    if (isValidEthAddress(content)) {
+        await updateWallet(message.author.id, content)
+        message.reply(`Thanks! I updated your address to ${content}`);
+    } else {
+        message.reply('Me speak no this language.');
     }
 });
 
