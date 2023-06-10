@@ -76,15 +76,16 @@ module.exports = {
     // production: true    // Treats this network as if it was a public net. (default: false)
     // }
     prod: {
-      provider: () => new HDWalletProvider({ privateKeys: PRIVATE_KEYS_PROD, providerOrUrl: 'https://rpc.gnosischain.com' }),
+      provider: () => new HDWalletProvider({ privateKeys: PRIVATE_KEYS_TEST, providerOrUrl: 'https://rpc.gnosischain.com' }),
       network_id: 100,
       gas: 500000,
       gasPrice: 1000000000
     },
     gnotest: {
-      // provider: () => new HDWalletProvider({ privateKeys: PRIVATE_KEYS_TEST, providerOrUrl: 'https://rpc.chiado.gnosis.gateway.fm	' }),
-      provider: () => new HDWalletProvider({ privateKeys: PRIVATE_KEYS_TEST, providerOrUrl: 'https://rpc.chiadochain.net' }),
+      provider: () => new HDWalletProvider({ privateKeys: PRIVATE_KEYS_TEST, providerOrUrl: 'https://rpc.chiado.gnosis.gateway.fm	' }),
+      // provider: () => new HDWalletProvider({ privateKeys: PRIVATE_KEYS_TEST, providerOrUrl: 'https://rpc.chiadochain.net' }),
       network_id: 10200,
+      // networkCheckTimeout: 1200000,
       // gas: 5000000000,
       // gasPrice: 1000000000
     },

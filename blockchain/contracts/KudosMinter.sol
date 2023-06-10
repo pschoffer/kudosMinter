@@ -9,7 +9,7 @@ contract KudosMinter is ERC721Enumerable, Ownable {
     string private _baseURIStorage;
 
     constructor() ERC721("Kudos", "KUDO") {
-        _baseURIStorage = "https://test.com";
+        _baseURIStorage = "https://kudos-minter.web.app/getMetadata/";
         _minter = 0x1C9e4a7636ea865c8D3476722bC93CADFD37eAd1;
     }
 
