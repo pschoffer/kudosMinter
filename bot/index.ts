@@ -48,7 +48,10 @@ client.on('interactionCreate', async interaction => {
             interaction.reply('Something went :boom:');
         }
     } else {
-        await interaction.reply('Command not found :(');
+        await interaction.reply({
+            ephemeral: true,
+            content: 'Command not found :('
+        });
     }
 });
 

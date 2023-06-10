@@ -5,5 +5,8 @@ export const command = new SlashCommandBuilder()
     .setDescription('Replies with pong!')
 
 export const execute = (interaction: any, client: any) => {
-    interaction.reply('Pong!');
+    interaction.reply({
+        ephemeral: true,
+        content: 'Pong!'
+    });
 }

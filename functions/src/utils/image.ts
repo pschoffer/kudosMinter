@@ -2,7 +2,7 @@ import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 import { NFTMetadata } from './shared/models';
 import axios from 'axios';
-import { Collections } from './shared/constants';
+import { Collections, BUCKET_NAME } from './shared/constants';
 
 export const generateImage = async (tokenId: string, metadata: NFTMetadata) => {
     functions.logger.info(`Generating image for ${tokenId}`);
@@ -31,7 +31,9 @@ export const generateImage = async (tokenId: string, metadata: NFTMetadata) => {
     )
 
     const responseJson = response.data;
-    const imageUrl = responseJson.data[0].url;
+    const tmpImageUrl = responseJson.data[0].url;
+
+    const imageUrl = await persistImage(tokenId, tmpImageUrl)
 
     functions.logger.info(`Got response from DALL-e: ${imageUrl}`);
 
@@ -77,4 +79,25 @@ const generatePrompt = async (originalKudos: string) => {
         functions.logger.error((e as any).response);
         throw e;
     }
+}
+
+const persistImage = async (tokenId: string, imageUrl: string) => {
+    functions.logger.info(`Persisting image for ${tokenId}`);
+    const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
+    const imageBuffer = Buffer.from(response.data, 'binary');
+
+    const bucket = admin.storage().bucket(BUCKET_NAME);
+    const file = bucket.file(`public/${tokenId}.png`);
+
+    await file.save(imageBuffer, {
+        metadata: {
+            contentType: 'image/png'
+        }
+    });
+    await file.makePublic();
+
+    functions.logger.info(`Image for ${tokenId} persisted`);
+
+    return `https://storage.googleapis.com/kudos-minter/public/${tokenId}.png`;
+
 }
