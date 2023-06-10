@@ -24,7 +24,8 @@ export type NFTMetadata = {
     description: string,
     external_url: string,
     imageGenerated: boolean,
-    attributes: Attribute[]
+    attributes: Attribute[],
+    createdAt: number,
 }
 
 export type Attribute = {

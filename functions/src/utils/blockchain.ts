@@ -48,7 +48,8 @@ const initMetadata = async (kudos: PendingKudos, tokenId: number) => {
                 trait_type: "message",
                 value: kudos.message
             }
-        ]
+        ],
+        createdAt: new Date().getTime(),
     };
 
     await admin.firestore().collection(Collections.Metadata).doc(tokenId.toString()).set(newMetadata);
