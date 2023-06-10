@@ -17,7 +17,6 @@ export const enqueuUserAddressRequest = async (pending: PendingKudos) => {
 }
 
 export const enqueuNewKudosMessage = async (tokenId: string) => {
-
     const newItem: BotQueueItem = {
         tokenId,
         type: 'newKudosMessage',

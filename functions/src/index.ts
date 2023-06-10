@@ -6,6 +6,7 @@ import { NFTMetadata, PendingKudos, User } from "./utils/shared/models";
 import { mintKudos } from "./utils/blockchain";
 import { apiWrapper, getTokenIdFromPath } from "./utils/api";
 import axios from "axios";
+import { generateImage } from "./utils/image";
 
 admin.initializeApp();
 
@@ -45,11 +46,17 @@ export const handleUserUpdate = functions.firestore.document(`${Collections.User
 
 export const handleMetadataUpdate = functions.firestore.document(`${Collections.Metadata}/{id}`).onWrite(async (change, context) => {
     const tokenId = context.params.id;
+    const metadata = change.after.data() as NFTMetadata;
 
-    await enqueuNewKudosMessage(tokenId);
+    if (metadata.imageGenerated) {
+        await enqueuNewKudosMessage(tokenId);
+    } else {
+        await generateImage(tokenId, metadata)
+    }
+
 });
 
-/***
+/**
  * API
  */
 
@@ -77,7 +84,7 @@ export const getMetadata = functions.https.onRequest(async (request, response) =
 });
 
 
-/***
+/**
  * SERVER SIDE RENDER
  */
 
