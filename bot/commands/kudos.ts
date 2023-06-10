@@ -1,6 +1,7 @@
 import { ChatInputCommandInteraction } from "discord.js";
 import * as admin from 'firebase-admin';
 import { Collections } from "../utils/shared/constants";
+import { PendingKudos } from "../utils/shared/models";
 
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
@@ -17,13 +18,17 @@ export const execute = async (interaction: ChatInputCommandInteraction, client: 
     const reciever = options.getUser('user');
     const message = options.getString('message');
 
+    const newPending: PendingKudos = {
+        from: sender.id,
+        fromName: sender.username,
+        to: reciever.id,
+        toName: reciever.username,
+        message: message,
+    }
+
     await admin.firestore()
         .collection(Collections.PendingKudos)
-        .add({
-            from: sender.id,
-            to: reciever.id,
-            message: message,
-        })
+        .add(newPending)
 
     interaction.reply({
         ephemeral: true,

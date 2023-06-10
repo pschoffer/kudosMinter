@@ -1,7 +1,9 @@
 import * as functions from "firebase-functions";
+import * as admin from 'firebase-admin';
 import { PendingKudos } from "./shared/models";
 import { ethers, JsonRpcProvider } from "ethers";
-import { MINT_ABI, NFT_CONTRACT_ADDRESS, RPC_ENDPOINT } from './shared/constants'
+import { Collections, MINT_ABI, NFT_CONTRACT_ADDRESS, RPC_ENDPOINT } from './shared/constants'
+import { NFTMetadata } from "./shared/models";
 
 
 export const mintKudos = async (kudos: PendingKudos, address: string): Promise<number> => {
@@ -22,5 +24,33 @@ export const mintKudos = async (kudos: PendingKudos, address: string): Promise<n
 
     functions.logger.info(`Minted kudos #${tokenId}`);
 
+    await initMetadata(kudos, tokenId);
+
     return tokenId;
+}
+
+const initMetadata = async (kudos: PendingKudos, tokenId: number) => {
+    const newMetadata: NFTMetadata = {
+        name: `Kudos #${tokenId}`,
+        description: `Kudos from ${kudos.fromName} to ${kudos.toName} with message ${kudos.message}`,
+        image: "TODO",
+        external_url: "TODO",
+        imageGenerated: false,
+        attributes: [
+            {
+                trait_type: "from",
+                value: kudos.fromName
+            },
+            {
+                trait_type: "to",
+                value: kudos.toName
+            },
+            {
+                trait_type: "message",
+                value: kudos.message
+            }
+        ]
+    };
+
+    await admin.firestore().collection(Collections.Metadata).doc(tokenId.toString()).set(newMetadata);
 }

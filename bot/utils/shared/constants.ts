@@ -2,6 +2,7 @@ export enum Collections {
     PendingKudos = 'pendingKudos',
     Users = 'users',
     BotQueue = 'botQueue',
+    Metadata = 'metadata',
 }
 
 export const RPC_ENDPOINT = 'https://rpc.chiadochain.net';

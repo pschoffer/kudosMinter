@@ -1,4 +1,3 @@
-import { Collection } from 'discord.js';
 import * as admin from 'firebase-admin';
 import { Collections } from './shared/constants';
 
