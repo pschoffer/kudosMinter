@@ -1,9 +1,8 @@
 import * as functions from "firebase-functions";
 import * as admin from 'firebase-admin';
-import { PendingKudos } from "./shared/models";
+import { PendingKudos, NFTMetadata } from "./shared/models";
 import { ethers, JsonRpcProvider } from "ethers";
 import { Collections, MINT_ABI, NFT_CONTRACT_ADDRESS, RPC_ENDPOINT } from './shared/constants'
-import { NFTMetadata } from "./shared/models";
 
 
 export const mintKudos = async (kudos: PendingKudos, address: string): Promise<number> => {

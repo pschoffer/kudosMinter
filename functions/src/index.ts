@@ -44,7 +44,6 @@ export const handleUserUpdate = functions.firestore.document(`${Collections.User
 
 export const getMetadata = functions.https.onRequest(async (request, response) => {
     return apiWrapper(request, response, async () => {
-
         const tokenId = getTokenIdFromPath(request);
 
         const metadataDoc = await admin.firestore().doc(`${Collections.Metadata}/${tokenId}`).get();
