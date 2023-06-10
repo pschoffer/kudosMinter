@@ -3,8 +3,6 @@ import { initFirebase, updateWallet } from "./utils/firebase";
 import { subscribeToQueue } from "./utils/queue";
 import { isValidEthAddress } from "./utils/blockchain";
 
-// Require the necessary discord.js classes
-// const { Client, Events, GatewayIntentBits,  } = require('discord.js');
 const { token } = require('./config').default;
 const { readdirSync } = require('fs');
 

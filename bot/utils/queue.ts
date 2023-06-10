@@ -1,7 +1,8 @@
-import { Client } from "discord.js";
+import { Client, TextChannel } from "discord.js";
 import * as admin from 'firebase-admin';
 import { Collections } from "./shared/constants";
 import { BotQueueItem } from "./shared/models";
+import config from '../config'
 
 export const subscribeToQueue = async (client: Client) => {
     const db = admin.firestore();
@@ -29,6 +30,8 @@ export const processEvent = async (event: BotQueueItem, client: Client) => {
 
         if (event.type === 'addressQuery') {
             await askForAddress(event, client);
+        } else if (event.type === 'newKudosMessage') {
+            await sendNewKudosMessage(event, client);
         } else {
             console.error('Unknown event type', event.type);
             await markEventAsFailed(event);
@@ -40,6 +43,21 @@ export const processEvent = async (event: BotQueueItem, client: Client) => {
 }
 
 
+async function sendNewKudosMessage(event: BotQueueItem, client: Client) {
+
+    try {
+        const tokenId = event.tokenId;
+        const url = `https://kudos-minter.web.app/kudos/${tokenId}`;
+
+        const channel = await client.channels.fetch(config.kudosChannelId) as TextChannel;
+        await channel.send(url);
+        await markEventAsSuccess(event);
+
+    } catch (e) {
+        console.error('Error sending message', e);
+        await markEventAsFailed(event);
+    }
+}
 async function askForAddress(event: BotQueueItem, client: Client) {
 
     try {

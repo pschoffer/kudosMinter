@@ -15,3 +15,15 @@ export const enqueuUserAddressRequest = async (pending: PendingKudos) => {
 
     await admin.firestore().collection(Collections.BotQueue).add(newItem);
 }
+
+export const enqueuNewKudosMessage = async (tokenId: string) => {
+
+    const newItem: BotQueueItem = {
+        tokenId,
+        type: 'newKudosMessage',
+        status: 'pending',
+        createdAt: new Date()
+    }
+
+    await admin.firestore().collection(Collections.BotQueue).add(newItem);
+}

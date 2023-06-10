@@ -12,8 +12,9 @@ export interface User {
 
 export interface BotQueueItem {
     id?: string;
-    userId: string;
-    type: 'addressQuery'
+    userId?: string;
+    tokenId?: string;
+    type: 'addressQuery' | 'newKudosMessage',
     status: 'pending' | 'complete' | 'error',
     createdAt: Date;
 }

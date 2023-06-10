@@ -1,7 +1,7 @@
 import * as functions from "firebase-functions";
 import * as admin from 'firebase-admin';
 import { Collections } from "./utils/shared/constants";
-import { enqueuUserAddressRequest } from "./utils/queue";
+import { enqueuNewKudosMessage, enqueuUserAddressRequest } from "./utils/queue";
 import { NFTMetadata, PendingKudos, User } from "./utils/shared/models";
 import { mintKudos } from "./utils/blockchain";
 import { apiWrapper, getTokenIdFromPath } from "./utils/api";
@@ -43,6 +43,16 @@ export const handleUserUpdate = functions.firestore.document(`${Collections.User
     }
 });
 
+export const handleMetadataUpdate = functions.firestore.document(`${Collections.Metadata}/{id}`).onWrite(async (change, context) => {
+    const tokenId = context.params.id;
+
+    await enqueuNewKudosMessage(tokenId);
+});
+
+/***
+ * API
+ */
+
 export const getMetadata = functions.https.onRequest(async (request, response) => {
     return apiWrapper(request, response, async () => {
         const tokenId = getTokenIdFromPath(request);
@@ -67,7 +77,7 @@ export const getMetadata = functions.https.onRequest(async (request, response) =
 });
 
 
-/** *
+/***
  * SERVER SIDE RENDER
  */
 
