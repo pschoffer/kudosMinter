@@ -53,7 +53,6 @@ export const handleMetadataUpdate = functions.firestore.document(`${Collections.
     } else {
         await generateImage(tokenId, metadata)
     }
-
 });
 
 /**
