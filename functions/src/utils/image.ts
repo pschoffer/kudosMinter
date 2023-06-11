@@ -47,8 +47,9 @@ export const generateImage = async (tokenId: string, metadata: NFTMetadata) => {
 
 const generatePrompt = async (originalKudos: string) => {
     const apiKey = functions.config().ai.api_key;
+    const style = functions.config().ai.style || 'art nouveau';
 
-    const prompt = `Return a one sentece prompt for DALL-E to generate image in art nouveau style reflecting kudos: "${originalKudos}"`
+    const prompt = `Return a one sentece prompt for DALL-E to generate image in ${style} style reflecting kudos: "${originalKudos}"`
     functions.logger.info(`Using prompt for chatGPT: ${prompt}`);
     const data = JSON.stringify({
         model: "gpt-3.5-turbo",

@@ -1,6 +1,15 @@
 Kudos Minter
 
 
+## Style Config
+
+```
+$ firebase functions:config:set ai.style="pixalated"
+
+$ firebase deploy --only functions
+
+```
+
 ## Bot connection
 
 Generate URL:
