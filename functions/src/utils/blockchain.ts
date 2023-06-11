@@ -41,8 +41,16 @@ const initMetadata = async (kudos: PendingKudos, tokenId: number) => {
                 value: kudos.fromName
             },
             {
+                trait_type: "fromAvatar",
+                value: kudos.fromAvatar || ''
+            },
+            {
                 trait_type: "to",
                 value: kudos.toName
+            },
+            {
+                trait_type: "toAvatar",
+                value: kudos.toAvatar || ''
             },
             {
                 trait_type: "message",

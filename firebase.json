@@ -54,5 +54,8 @@
         "function": "kudospage"
       }
     ]
+  },
+  "storage": {
+    "rules": "storage.rules"
   }
 }

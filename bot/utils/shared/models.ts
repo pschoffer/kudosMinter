@@ -1,8 +1,12 @@
 export interface PendingKudos {
     from: string;
     fromName: string;
+    fromAvatar?: string;
+
     to: string;
     toName: string;
+    toAvatar?: string;
+
     message: string;
 }
 

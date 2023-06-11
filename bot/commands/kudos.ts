@@ -18,11 +18,18 @@ export const execute = async (interaction: ChatInputCommandInteraction, client: 
     const reciever = options.getUser('user');
     const message = options.getString('message');
 
+    const senderAvatar = client.users.cache.get(sender.id).avatarURL()
+    const recieverAvatar = client.users.cache.get(reciever.id).avatarURL()
+
     const newPending: PendingKudos = {
         from: sender.id,
         fromName: sender.username,
+        fromAvatar: senderAvatar,
+
         to: reciever.id,
         toName: reciever.username,
+        toAvatar: recieverAvatar,
+
         message: message,
     }
 
