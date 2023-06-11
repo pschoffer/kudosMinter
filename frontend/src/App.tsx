@@ -5,6 +5,21 @@ import firebaseConfig from './utils/firebaseConfig';
 import KudosPage from './pages/KudosPage';
 import KudosListPage from './pages/KudosListPage';
 import { getFirestore } from 'firebase/firestore';
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <KudosListPage />,
+  },
+  {
+    path: "/kudos/:kudosId",
+    element: <KudosPage />,
+  }
+]);
 
 export default function App() {
 
@@ -18,19 +33,7 @@ function FirebaseApp() {
   const firestoreInstance = getFirestore(firebaseApp);
 
   return <FirestoreProvider sdk={firestoreInstance}>
-    <FinalApp />
+    <RouterProvider router={router} />
   </FirestoreProvider>
-}
-
-function FinalApp() {
-  const matchResult = window.location.pathname.match(/\/kudos\/(\d+)$/);
-  const kudosId = matchResult ? matchResult[1] : null;
-
-  if (kudosId) {
-    return <KudosPage kudosId={kudosId} />
-  }
-
-  return <KudosListPage />
-
 }
 

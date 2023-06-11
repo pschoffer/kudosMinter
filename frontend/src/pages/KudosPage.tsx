@@ -5,20 +5,21 @@ import { doc, onSnapshot } from 'firebase/firestore';
 import { useFirestore } from 'reactfire';
 import { Collections } from '../utils/enums';
 import { fromFirebaseDoc } from '../utils/firebase';
+import { useParams } from 'react-router-dom';
 
-interface Props {
-    kudosId: string;
-}
 
-export default function KudosPage(props: Props) {
+export default function KudosPage() {
+    const { kudosId } = useParams<{ kudosId: string }>();
     const [kudo, setKudo] = useState<NFTMetadata | null>(null);
     const db = useFirestore();
 
     useEffect(() => {
-        return onSnapshot(doc(db, Collections.Metadata, props.kudosId), (doc) => {
-            setKudo(fromFirebaseDoc<NFTMetadata>(doc));
-        });
-    }, [db, props.kudosId])
+        if (kudosId) {
+            return onSnapshot(doc(db, Collections.Metadata, kudosId), (doc) => {
+                setKudo(fromFirebaseDoc<NFTMetadata>(doc));
+            });
+        }
+    }, [db, kudosId])
 
     if (!kudo) {
         return <div>

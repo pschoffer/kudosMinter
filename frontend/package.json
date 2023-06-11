@@ -15,6 +15,7 @@
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.4",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.12.1",
     "react-scripts": "5.0.1",
     "reactfire": "^4.2.2",
     "sass": "^1.63.3",

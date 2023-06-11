@@ -5,6 +5,7 @@ import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { NFTMetadata } from '../utils/shared/models';
 import { Collections } from '../utils/enums';
 import { fromFirebaseDocs, parseAttributes } from '../utils/firebase';
+import { Link } from 'react-router-dom';
 
 export default function KudosListPage() {
     const [kudos, setKudos] = React.useState<NFTMetadata[]>([]);
@@ -20,7 +21,6 @@ export default function KudosListPage() {
     }, [db])
 
 
-    const baseLink = window.location.origin + '/kudos/';
     return (
         <div>
             <Header />
@@ -32,7 +32,7 @@ export default function KudosListPage() {
                         return <div key={kudo.id || ''} className='col-md-4 p-2 center kudos-list-item'>
                             <div className='content'>
 
-                                <a key={kudo.id || ''} href={baseLink + kudo.id} >
+                                <Link key={kudo.id || ''} to={'/kudos/' + kudo.id} >
                                     <img src={kudo.image} alt={kudo.name} className='kudos-preview' />
 
 
@@ -41,7 +41,7 @@ export default function KudosListPage() {
                                         <p>{attributes.from + " >> " + attributes.to}</p>
                                         <p className='mt-2 text-center bold bigger'>{attributes.message}</p>
                                     </div>
-                                </a>
+                                </Link>
                             </div>
                         </div>
                     })}
