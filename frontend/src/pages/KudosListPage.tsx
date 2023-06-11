@@ -4,7 +4,7 @@ import { useFirestore } from 'reactfire';
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { NFTMetadata } from '../utils/shared/models';
 import { Collections } from '../utils/enums';
-import { fromFirebaseDocs } from '../utils/firebase';
+import { fromFirebaseDocs, parseAttributes } from '../utils/firebase';
 
 export default function KudosListPage() {
     const [kudos, setKudos] = React.useState<NFTMetadata[]>([]);
@@ -25,19 +25,27 @@ export default function KudosListPage() {
         <div>
             <Header />
             <div className='container'>
-                {kudos.map(kudo => <a key={kudo.id || ''} href={baseLink + kudo.id}>
-                    <div className='row m-0 kudos-link' >
-                        <div className='col v-center'>
-                            <h3>{kudo.name}</h3>
+                <div className='row'>
+
+                    {kudos.map(kudo => {
+                        const attributes = parseAttributes(kudo)
+                        return <div key={kudo.id || ''} className='col-md-4 p-2 center kudos-list-item'>
+                            <div className='content'>
+
+                                <a key={kudo.id || ''} href={baseLink + kudo.id} >
+                                    <img src={kudo.image} alt={kudo.name} className='kudos-preview' />
+
+
+                                    <div className='details  p-1'>
+                                        <h3>{kudo.name}</h3>
+                                        <p>{attributes.from + " >> " + attributes.to}</p>
+                                        <p className='mt-2 text-center bold bigger'>{attributes.message}</p>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
-                        <div className='col'>
-                            <img src={kudo.image} alt={kudo.name} className='kudos-preview' />
-                        </div>
-                        <div className='col v-center'>
-                            <p>{kudo.description}</p>
-                        </div>
-                    </div>
-                </a>)}
+                    })}
+                </div>
             </div>
         </div>
     )
