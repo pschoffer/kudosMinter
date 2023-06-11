@@ -1,5 +1,8 @@
 Kudos Minter
 
+![RecordKudos](https://github.com/pschoffer/kudosMinter/assets/19240162/beed2a45-6b77-4e2b-b0a7-44aa83748e6b)
+
+
 
 ## Style Config
 
