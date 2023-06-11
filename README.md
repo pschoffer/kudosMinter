@@ -1,4 +1,5 @@
-Kudos Minter
+![KS_Logo](https://github.com/pschoffer/kudosMinter/assets/19240162/393202d0-6edb-4bb3-ae32-8eb7ca749984)
+
 
 ![RecordKudos](https://github.com/pschoffer/kudosMinter/assets/19240162/beed2a45-6b77-4e2b-b0a7-44aa83748e6b)
 
