@@ -21,6 +21,17 @@ $primary: #6c6c6c;
   font-size: 1.5em;
 }
 
+.avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+}
+
+label {
+  font-weight: bold;
+  font-size: small;
+}
+
 $preview: 256px;
 
 .kudos-preview {
